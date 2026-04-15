@@ -1,6 +1,6 @@
 {
   "rewrites": [
-    { "source": "/api/:path*", "destination": "https://YOUR-RAILWAY-URL/api/:path*" },
-    { "source": "/media/:path*", "destination": "https://YOUR-RAILWAY-URL/media/:path*" }
+    { "source": "/api/:path*", "destination": "https://petra-marketing-production.up.railway.app/api/:path*" },
+    { "source": "/media/:path*", "destination": "https://petra-marketing-production.up.railway.app/media/:path*" }
   ]
 }
