@@ -1,0 +1,93 @@
+from datetime import datetime, timezone
+from sqlalchemy import Column, Integer, String, Text, DateTime, JSON, Index, ForeignKey
+from sqlalchemy.orm import DeclarativeBase, relationship
+
+
+class Base(DeclarativeBase):
+    pass
+
+
+class ResearchItem(Base):
+    __tablename__ = "research"
+    id = Column(Integer, primary_key=True)
+    source = Column(String(50))
+    competitor = Column(String(100))
+    content = Column(Text)
+    raw_data = Column(JSON)
+    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+
+
+class SocialSnapshot(Base):
+    __tablename__ = "social_snapshots"
+    __table_args__ = (Index("ix_social_snapshots_platform_handle", "platform", "handle"),)
+    id = Column(Integer, primary_key=True, index=True)
+    platform = Column(String(30), nullable=False)
+    handle = Column(String(100), nullable=False)
+    followers = Column(Integer, default=0)
+    following = Column(Integer, default=0)
+    posts_count = Column(Integer, default=0)
+    bio = Column(String(500), default="")
+    scraped_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+
+
+class SocialPostCache(Base):
+    __tablename__ = "social_posts_cache"
+    id = Column(Integer, primary_key=True, index=True)
+    platform = Column(String(30), nullable=False, index=True)
+    post_id = Column(String(200), nullable=False, unique=True)
+    likes = Column(Integer, default=0)
+    comments = Column(Integer, default=0)
+    thumbnail_url = Column(String(500), default="")
+    caption = Column(String(1000), default="")
+    posted_at = Column(DateTime, nullable=True)
+    scraped_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+
+
+class SocialAnalysis(Base):
+    __tablename__ = "social_analysis"
+    id = Column(Integer, primary_key=True)
+    platform = Column(String(20), nullable=False)
+    analysis = Column(Text, nullable=False)
+    generated_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+
+
+class AgentRun(Base):
+    __tablename__ = "agent_runs"
+    id = Column(Integer, primary_key=True)
+    agent_name = Column(String(50))
+    status = Column(String(20))
+    started_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+    completed_at = Column(DateTime, nullable=True)
+    log = Column(Text, nullable=True)
+
+
+class Idea(Base):
+    __tablename__ = "ideas"
+    id = Column(Integer, primary_key=True)
+    title = Column(String(200))
+    body = Column(Text)
+    evidence = Column(Text, nullable=True)
+    status = Column(String(20), default="pending")
+    rejection_notes = Column(Text, nullable=True)
+    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+
+
+class Approval(Base):
+    __tablename__ = "approvals"
+    id = Column(Integer, primary_key=True)
+    item_type = Column(String(20))
+    item_id = Column(Integer)
+    decision = Column(String(20))
+    notes = Column(Text, nullable=True)
+    decided_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+
+
+class WebsiteChange(Base):
+    __tablename__ = "website_changes"
+    id = Column(Integer, primary_key=True)
+    change_type = Column(String(50))
+    description = Column(Text)
+    payload = Column(JSON)
+    status = Column(String(20), default="pending")
+    idea_id = Column(Integer, ForeignKey("ideas.id"), nullable=True)
+    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
