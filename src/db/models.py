@@ -91,3 +91,13 @@ class WebsiteChange(Base):
     status = Column(String(20), default="pending")
     idea_id = Column(Integer, ForeignKey("ideas.id"), nullable=True)
     created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+
+
+class DailyReview(Base):
+    __tablename__ = "daily_reviews"
+    id = Column(Integer, primary_key=True)
+    review_date = Column(DateTime, unique=True, nullable=False)
+    score = Column(Integer, default=50)
+    sentiment = Column(String(20), default="neutral")
+    sections = Column(JSON)
+    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
