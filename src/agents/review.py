@@ -50,6 +50,8 @@ class ReviewAgent(BaseAgent):
         score = parsed.get("score", 50)
         sentiment = parsed.get("sentiment", "neutral")
         sections = parsed.get("sections", {})
+        # Store score reasoning alongside sections for frontend display
+        sections["score_reasoning"] = parsed.get("score_reasoning", "")
 
         existing = (
             self.db.query(DailyReview)
@@ -165,7 +167,8 @@ class ReviewAgent(BaseAgent):
             f"Competitors being tracked: {', '.join(COMPETITORS)}\n\n"
             f"Return ONLY valid JSON with this exact structure:\n"
             f'{{\n'
-            f'  "score": <0-100 integer performance score>,\n'
+            f'  "score": <0-100 integer, Petra\'s overall performance score>,\n'
+            f'  "score_reasoning": "<2-3 sentences explaining WHY this score was given — reference specific metrics, trends, or events that drove it up or down>",\n'
             f'  "sentiment": "<positive|neutral|negative>",\n'
             f'  "sections": {{\n'
             f'    "petra_performance": {{\n'
@@ -177,7 +180,7 @@ class ReviewAgent(BaseAgent):
             f'    "competitor_activity": {{\n'
             f'      "title": "Competitor Activity",\n'
             f'      "summary": "<2-3 sentence summary>",\n'
-            f'      "competitors": [{{"name": "<name>", "activity": "<what they did>", "threat_level": "<low|medium|high>"}}]\n'
+            f'      "competitors": [{{"name": "<name>", "activity": "<what they did>", "threat_level": "<low|medium|high>", "score": <0-100 integer, this competitor\'s estimated performance score based on available intelligence>}}]\n'
             f'    }},\n'
             f'    "key_takeaways": {{\n'
             f'      "title": "Key Takeaways",\n'

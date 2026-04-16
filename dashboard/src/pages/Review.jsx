@@ -130,22 +130,53 @@ export default function Review() {
             <p className="text-5xl font-bold tracking-tight" style={{ color: scoreColor }}>
               {review.score}
             </p>
-          </div>
-          <div className="w-px h-16 bg-[#DDD7CE] hidden sm:block" />
-          <div className="flex flex-col items-center sm:items-start gap-3">
-            <span
-              className="px-4 py-1.5 rounded-full text-[13px] font-semibold border"
-              style={{
-                backgroundColor: sentimentStyle.bg,
-                color: sentimentStyle.text,
-                borderColor: sentimentStyle.border,
-              }}
-            >
-              {review.sentiment ? review.sentiment.charAt(0).toUpperCase() + review.sentiment.slice(1) : 'N/A'}
-            </span>
-            <p className="text-[12px] text-[#8B8680]">
-              Generated {formatDateTime(review.created_at)}
+            <p className="text-[11px] font-semibold mt-1.5" style={{ color: scoreColor }}>
+              {review.score >= 80 ? 'Excellent' : review.score >= 60 ? 'Good' : review.score >= 40 ? 'Fair' : review.score >= 20 ? 'Poor' : 'Critical'}
             </p>
+          </div>
+          <div className="w-px h-20 bg-[#DDD7CE] hidden sm:block" />
+          <div className="flex flex-col items-center sm:items-start gap-3 flex-1">
+            <div className="flex items-center gap-3">
+              <span
+                className="px-4 py-1.5 rounded-full text-[13px] font-semibold border"
+                style={{
+                  backgroundColor: sentimentStyle.bg,
+                  color: sentimentStyle.text,
+                  borderColor: sentimentStyle.border,
+                }}
+              >
+                {review.sentiment ? review.sentiment.charAt(0).toUpperCase() + review.sentiment.slice(1) : 'N/A'}
+              </span>
+              <p className="text-[12px] text-[#8B8680]">
+                Generated {formatDateTime(review.created_at)}
+              </p>
+            </div>
+            {sections?.score_reasoning && (
+              <p className="text-[14px] text-[#5F6360] leading-relaxed mt-1">
+                {sections.score_reasoning}
+              </p>
+            )}
+          </div>
+        </div>
+
+        {/* Score legend */}
+        <div className="mt-6 pt-5 border-t border-[#DDD7CE]">
+          <div className="flex items-center gap-5 flex-wrap">
+            <p className="text-[10px] font-bold text-[#8B8680] uppercase tracking-[0.15em]">Scale</p>
+            {[
+              { min: 80, label: 'Excellent', color: '#10B981' },
+              { min: 60, label: 'Good', color: '#10B981' },
+              { min: 40, label: 'Fair', color: '#F59E0B' },
+              { min: 20, label: 'Poor', color: '#EF4444' },
+              { min: 0, label: 'Critical', color: '#EF4444' },
+            ].map(({ min, label, color }) => (
+              <div key={label} className="flex items-center gap-1.5">
+                <div className="w-2 h-2 rounded-full" style={{ backgroundColor: color, opacity: review.score >= min && review.score < (min + 20 > 100 ? 101 : min + 20) ? 1 : 0.25 }} />
+                <span className="text-[11px] text-[#8B8680]" style={{ fontWeight: review.score >= min && review.score < (min + 20 > 100 ? 101 : min + 20) ? 700 : 400 }}>
+                  {min}–{min + 19 > 99 ? '100' : min + 19} {label}
+                </span>
+              </div>
+            ))}
           </div>
         </div>
       </div>
@@ -220,10 +251,26 @@ export default function Review() {
               }
               const threat = threatColors[comp.threat_level] || threatColors.low
 
+              const compScoreColor = comp.score >= 60 ? '#10B981' : comp.score >= 40 ? '#F59E0B' : '#EF4444'
+
               return (
                 <div key={i} className="slab p-7" style={{ borderLeft: '3px solid #D4A76A' }}>
                   <div className="flex items-center justify-between mb-3">
-                    <h3 className="text-[17px] font-semibold text-[#2C2420]">{comp.name}</h3>
+                    <div className="flex items-center gap-3">
+                      <h3 className="text-[17px] font-semibold text-[#2C2420]">{comp.name}</h3>
+                      {comp.score != null && (
+                        <span
+                          className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-[13px] font-bold border"
+                          style={{
+                            color: compScoreColor,
+                            borderColor: `${compScoreColor}30`,
+                            backgroundColor: `${compScoreColor}08`,
+                          }}
+                        >
+                          {comp.score}
+                        </span>
+                      )}
+                    </div>
                     <span
                       className="px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider border"
                       style={{
