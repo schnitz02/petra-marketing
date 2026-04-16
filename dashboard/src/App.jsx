@@ -8,9 +8,11 @@ import Agents from './pages/Agents'
 import Calendar from './pages/Calendar'
 import Strategy from './pages/Strategy'
 import Website from './pages/Website'
+import Review from './pages/Review'
 
 const NAV_ITEMS = [
   { path: '/', label: 'Overview', icon: OverviewIcon },
+  { path: '/review', label: 'Review', icon: ReviewIcon },
   { path: '/social-stats', label: 'Social Stats', icon: SocialIcon },
   { path: '/research', label: 'Research', icon: ResearchIcon },
   { path: '/strategy', label: 'Strategy', icon: StrategyIcon },
@@ -141,6 +143,7 @@ export default function App() {
         <main className="p-6 lg:px-16 lg:py-14 max-w-[1400px]">
           <Routes>
             <Route path="/" element={<Overview />} />
+            <Route path="/review" element={<Review />} />
             <Route path="/social-stats" element={<SocialStats />} />
             <Route path="/research" element={<Research />} />
             <Route path="/strategy" element={<Strategy />} />
@@ -156,6 +159,14 @@ export default function App() {
 }
 
 /* ─── Nav Icons ────────────────────────────────────────────────── */
+
+function ReviewIcon({ active }) {
+  return (
+    <svg className="w-[18px] h-[18px] shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={active ? 2.2 : 1.8}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+    </svg>
+  )
+}
 
 function OverviewIcon({ active }) {
   return (
