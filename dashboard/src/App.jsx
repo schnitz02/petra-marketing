@@ -28,7 +28,7 @@ export default function App() {
   const sidebarWidth = collapsed ? 'w-[72px]' : 'w-[280px]'
 
   return (
-    <div className="flex min-h-screen bg-[#F5F5F3]">
+    <div className="flex min-h-screen bg-[#F7F3EE]">
       {/* Mobile overlay */}
       {sidebarOpen && (
         <div
@@ -40,7 +40,7 @@ export default function App() {
       {/* Sidebar */}
       <aside className={`
         fixed lg:sticky top-0 left-0 z-50 h-screen ${sidebarWidth}
-        bg-gradient-to-b from-[#1A1A1A] to-[#141414] flex flex-col
+        bg-gradient-to-b from-[#2C2420] to-[#1A1714] flex flex-col
         transition-all duration-300 ease-out
         ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
       `}>
@@ -126,7 +126,7 @@ export default function App() {
       {/* Main content */}
       <div className="flex-1 min-w-0">
         {/* Mobile header */}
-        <header className="lg:hidden sticky top-0 z-30 bg-[#F5F5F3]/80 backdrop-blur-md border-b border-[#E0DFDD] px-4 py-3 flex items-center gap-3">
+        <header className="lg:hidden sticky top-0 z-30 bg-[#F7F3EE]/80 backdrop-blur-md border-b border-[#DDD7CE] px-4 py-3 flex items-center gap-3">
           <button
             onClick={() => setSidebarOpen(true)}
             className="p-2 rounded-lg hover:bg-[#E0DFDD] transition-colors"
@@ -138,7 +138,7 @@ export default function App() {
           <img src="/logo.png" alt="Petra" className="h-7 w-auto" />
         </header>
 
-        <main className="p-6 lg:px-14 lg:py-12 max-w-[1400px]">
+        <main className="p-6 lg:px-16 lg:py-14 max-w-[1400px]">
           <Routes>
             <Route path="/" element={<Overview />} />
             <Route path="/social-stats" element={<SocialStats />} />
