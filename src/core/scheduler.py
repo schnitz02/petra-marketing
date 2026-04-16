@@ -52,6 +52,12 @@ class AgentScheduler:
             args=["website"], id="website_daily", replace_existing=True,
         )
 
+        # Review agent — daily at 21:00 UTC
+        self.scheduler.add_job(
+            _run_sync, CronTrigger(hour=21, minute=0),
+            args=["review"], id="review_daily", replace_existing=True,
+        )
+
     def start(self):
         self.scheduler.start()
         logger.info("Agent scheduler started")

@@ -5,6 +5,7 @@ from src.agents.social_stats import SocialStatsAgent
 from src.agents.analytics import AnalyticsAgent
 from src.agents.strategy import StrategyAgent
 from src.agents.website import WebsiteAgent
+from src.agents.review import ReviewAgent
 
 logger = logging.getLogger(__name__)
 
@@ -14,6 +15,7 @@ AGENT_REGISTRY = {
     "analytics": AnalyticsAgent,
     "strategy": StrategyAgent,
     "website": WebsiteAgent,
+    "review": ReviewAgent,
 }
 
 
