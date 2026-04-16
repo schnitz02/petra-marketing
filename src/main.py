@@ -59,6 +59,7 @@ def create_app():
     from src.api.routes.social_analysis import router as social_analysis_router
     from src.api.routes.ga4 import router as ga4_router
     from src.api.routes.approvals import router as approvals_router
+    from src.api.routes.review import router as review_router
 
     app.include_router(agents.router, prefix="/api/agents")
     app.include_router(dashboard.router, prefix="/api/dashboard")
@@ -67,6 +68,7 @@ def create_app():
     app.include_router(social_analysis_router, prefix="/api")
     app.include_router(ga4_router, prefix="/api")
     app.include_router(approvals_router, prefix="/api/approvals")
+    app.include_router(review_router, prefix="/api/review")
 
     @app.get("/health")
     def health():

@@ -8,6 +8,7 @@ from src.db.database import get_db
 from src.db.models import (
     SocialSnapshot, AgentRun, Idea, WebsiteChange,
     ResearchItem, SocialPostCache, SocialAnalysis, Approval,
+    DailyReview,
 )
 
 router = APIRouter()
@@ -62,7 +63,7 @@ def reset_all_data(db: Session = Depends(get_db)):
     """Clear all data from all tables. Development use only."""
     counts = {}
     for model in [ResearchItem, SocialSnapshot, SocialPostCache, SocialAnalysis,
-                  AgentRun, Idea, Approval, WebsiteChange]:
+                  AgentRun, Idea, Approval, WebsiteChange, DailyReview]:
         count = db.query(model).delete()
         counts[model.__tablename__] = count
     db.commit()
